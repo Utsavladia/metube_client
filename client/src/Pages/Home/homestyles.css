@@ -1,0 +1,11 @@
+.noscrollbar {
+  scrollbar-width: 0px;
+}
+
+.noscrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+.gretop {
+  background: linear-gradient(to right, rgba(0, 0, 0, 0.6), rgba(0, 0, 0, 1));
+}

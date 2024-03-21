@@ -1,0 +1,21 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+body {
+  background-color: black;
+}
+
+::-webkit-scrollbar {
+  width: 5px;
+  height: auto;
+}
+
+::-webkit-scrollbar-track {
+  background: transparent; /* Make scrollbar track transparent */
+}
+
+::-webkit-scrollbar-thumb {
+  background: rgb(39, 39, 42); /* Set scrollbar handle color */
+  border-radius: 5px; /* Set scrollbar handle border radius */
+}
