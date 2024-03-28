@@ -5,12 +5,26 @@ import { RiSearchLine } from "react-icons/ri";
 import { HiMicrophone } from "react-icons/hi";
 import { HiOutlineBell } from "react-icons/hi";
 import { VscDeviceCameraVideo } from "react-icons/vsc";
+import GoogleOAuth from "./GoogleAuth";
+import { useSelector } from "react-redux";
+import { NavLink } from "react-router-dom";
 
 const Navbar = ({ toggleLeftBar }) => {
-  const [user, setuser] = useState("utsav");
+  // const [user, setuser] = useState(null);
   const [searchQuery, setsearchQuery] = useState("");
   const [suggestions, setsuggestions] = useState([]);
   const [showSugg, setShowSugg] = useState(false);
+  const [showAP, setShowAP] = useState(false);
+  const user = useSelector((state) => state.currentUserReducer);
+
+  const toggleAccountPanel = () => {
+    setShowAP((prev) => !prev);
+  };
+
+  const adduser = (name) => {
+    // setuser(name);
+    console.log("User logged in:", name);
+  };
 
   const handleInputChange = (e) => {
     setsearchQuery(e.target.value);
@@ -77,13 +91,40 @@ const Navbar = ({ toggleLeftBar }) => {
       <div className="flex gap-4 items-center">
         <VscDeviceCameraVideo className="text-white text-2xl" />
         <HiOutlineBell className="text-white text-2xl" />
-        {user.length > 0 ? (
-          <div className="text-white text-xl">{user}</div>
-        ) : (
-          <button className="text-blue-500 border border-blue-500 py-1 px-2">
-            Sign in
-          </button>
-        )}
+        <div className="relative">
+          {user ? (
+            <div
+              className="text-white text-xl font-bold bg-zinc-800 w-10 h-10  rounded-full items-center flex justify-evenly cursor-pointer"
+              onClick={toggleAccountPanel}
+            >
+              {user.result.email.slice(0, 1).toUpperCase()}
+            </div>
+          ) : (
+            <div>
+              <button
+                onClick={toggleAccountPanel}
+                className="text-blue-500 border border-blue-500 py-1 px-2"
+              >
+                Sign in
+              </button>
+            </div>
+          )}
+
+          {showAP && (
+            <div className="absolute bg-zinc-800 right-0 top-12 p-6 rounded-lg  ">
+              <h1 className="border-b-2 text-white font-semibold text-lg text-center pb-4">
+                Wellcome {user?.name}!
+              </h1>
+
+              <NavLink to={"/channel"}>
+                <div className="text-white font-bold py-2 cursor-pointer my-6 text-center hover:bg-black rounded-lg">
+                  Your Channel
+                </div>
+              </NavLink>
+              <GoogleOAuth adduser={adduser} />
+            </div>
+          )}
+        </div>
       </div>
     </div>
   );

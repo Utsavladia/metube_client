@@ -1,7 +1,11 @@
-import React from "react";
+import React, { useEffect } from "react";
 import vdo from "../../assets/vdo.mp4";
 import LikeSubscribeSave from "./LikeSubscribeSave";
 import CommentSection from "./CommentSection";
+import { useDispatch, useSelector } from "react-redux";
+import { useParams } from "react-router-dom";
+import { viewVideo } from "../../actions/getAllVideos";
+import { history } from "../../actions/history.js";
 
 const video = {
   id: 1,
@@ -16,7 +20,7 @@ const video = {
   channelAvatar: "https://example.com/react-tutorials-avatar.jpg",
   subscriber: "700k",
   uploadDate: "2024-03-18",
-  description: "Learn the basics of React in this introductory video.",
+  description: "This is a example description we can see for the videos",
   tags: ["React", "Frontend", "JavaScript"],
 };
 const getElapsedTime = (uploadDate) => {
@@ -46,16 +50,37 @@ const getElapsedTime = (uploadDate) => {
 };
 
 const VideoPage = () => {
+  const { vid } = useParams();
+
+  const currvid = useSelector((state) => state.videoReducer);
+  const vv = currvid?.data?.filter((q) => q._id === vid)[0];
+  console.log("video in the video page is ", vv);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state?.currentUserReducer);
+
+  const videoview = () => {
+    dispatch(viewVideo({ id: vid }));
+  };
+  useEffect(() => {
+    videoview();
+  }, []);
+  dispatch(
+    history({
+      userId: currentUser?.result?._id,
+      history: vid,
+    })
+  );
+
   return (
     <div className="flex w-full h-full py-20 px-8 text-white">
       <div className="md:w-[65vw] flex flex-col ">
         <video
-          src={video.src}
+          src={`http://localhost:5500/${vv?.filePath}`}
           className="w-full max-h-[70vh] object-cover rounded-xl"
           controls
           //autoPlay
         />
-        <h1 className="text-white font-bold text-xl my-2">{video.title}</h1>
+        <h1 className="text-white font-bold text-xl my-2">{vv.videoTitle}</h1>
         <div className="flex flex-wrap justify-between items-center">
           <div className="flex gap-4 items-center mb-4">
             <img
@@ -73,12 +98,12 @@ const VideoPage = () => {
               Subscribe
             </button>
           </div>
-          <LikeSubscribeSave video={video} />
+          <LikeSubscribeSave video={vv} vid={vid} />
         </div>
 
         <div className="p-2 text-sm font-semibold bg-zinc-800 rounded-lg">
           <p className="">
-            {video.views} views {getElapsedTime(video.uploadDate)}
+            {vv.Views} views {getElapsedTime(video.uploadDate)}
           </p>
           <p className=" mt-1">{video.description}</p>
           ...more

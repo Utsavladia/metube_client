@@ -2,6 +2,8 @@ import React from "react";
 import { Link } from "react-router-dom";
 
 const VideoCard = ({ video }) => {
+  console.log(video);
+  const uploadDate = video.createdAt;
   const getElapsedTime = (uploadDate) => {
     const now = new Date();
     const uploadDateTime = new Date(uploadDate);
@@ -28,12 +30,15 @@ const VideoCard = ({ video }) => {
     }
   };
   return (
-    <div className="flex flex-col my-4">
-      <Link to={`/videopage/${video?.id}`} className="relative">
-        <video src={video.src} className="rounded-xl" />
-        <p className="absolute right-2 bottom-1 bg-black font-semibold text-sm">
+    <div className="text-white flex flex-col my-4">
+      <Link to={`/videopage/${video?._id}`} className="relative">
+        <video
+          src={`http://localhost:5500/${video.filePath}`}
+          className="rounded-xl"
+        />
+        {/* <p className="absolute right-2 bottom-1 bg-black font-semibold text-sm">
           {video.duration}
-        </p>
+        </p> */}
       </Link>
       <div className="flex gap-3 pt-3">
         <img
@@ -42,10 +47,10 @@ const VideoCard = ({ video }) => {
           className="w-10 h-10 rounded-full"
         />
         <div className="flex flex-col">
-          <h1 className="font-semibold text-lg">{video.title}</h1>
-          <p className="text-zinc-500 font-semibold">{video.channel}</p>
+          <h1 className="font-semibold text-lg">{video.videoTitle}</h1>
+          {/* <p className="text-zinc-500 font-semibold">{video.channel}</p> */}
           <span className="text-sm font-semibold text-zinc-500">
-            {video.views} views • {getElapsedTime(video.uploadDate)}
+            {video.Views} views • {getElapsedTime(uploadDate)}
           </span>
         </div>
       </div>

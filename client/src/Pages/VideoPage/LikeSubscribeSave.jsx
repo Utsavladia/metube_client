@@ -2,7 +2,9 @@ import React, { useState, useEffect } from "react";
 import { BiDislike, BiLike } from "react-icons/bi";
 import { TbShare3 } from "react-icons/tb";
 import { HiDownload } from "react-icons/hi";
+import { useDispatch, useSelector } from "react-redux";
 import { HiOutlineDotsHorizontal } from "react-icons/hi";
+import { MdOutlinePlaylistAddCheck } from "react-icons/md";
 import { MdPlaylistAdd, MdOutlineOutlinedFlag } from "react-icons/md";
 
 import {
@@ -11,23 +13,81 @@ import {
   AiFillDislike,
   AiOutlineDislike,
 } from "react-icons/ai";
-
-const LikeSubscribeSave = ({ video }) => {
+import { likeVideo } from "../../actions/getAllVideos";
+import { savevideo } from "../../actions/getAllVideos";
+import { userLiked } from "../../actions/video";
+const LikeSubscribeSave = ({ video, vid }) => {
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
+  const [saved, setSaved] = useState(false);
   const [dots, setdots] = useState(false);
+  const dispatch = useDispatch();
+  const currentUser = useSelector((state) => state.currentUserReducer);
+  const watchLaterList = useSelector((state) => state.watchLaterReducer);
+  const allLikes = useSelector((state) => state.allLikesReducer);
+  console.log("we got the watchlater as ", watchLaterList);
+  useEffect(() => {
+    watchLaterList?.data
+      .filter(
+        (q) => q?.videoId === vid && q?.userId === currentUser?.result?._id
+      )
+      .map((m) => setSaved(true));
+
+    allLikes?.likedVideos.filter((q) => q == vid).map((m) => setLiked(true));
+  }, []);
 
   const toggleDot = () => {
     setdots(!dots);
   };
 
   const toggleLike = () => {
+    if (liked) {
+      dispatch(
+        likeVideo({
+          id: vid,
+          Like: video.Like - 1,
+        })
+      );
+    } else {
+      dispatch(
+        likeVideo({
+          id: vid,
+          Like: video.Like + 1,
+        })
+      );
+    }
+    dispatch(
+      userLiked({
+        userId: currentUser?.result?._id,
+        videoId: vid,
+      })
+    );
+
     setLiked(!liked);
   };
   const toggleDislike = () => {
+    if (liked) {
+      dispatch(
+        likeVideo({
+          id: vid,
+          Like: video.Like - 1,
+        })
+      );
+    }
     setDisliked(!disliked);
   };
 
+  const handleSave = () => {
+    setSaved(!saved);
+    dispatch(
+      savevideo({
+        videoId: vid,
+        userId: currentUser?.result?._id,
+      })
+    );
+  };
+
+  // to control like and dislike at same time
   useEffect(() => {
     if (liked == true) setDisliked(false);
   }, [liked]);
@@ -48,7 +108,7 @@ const LikeSubscribeSave = ({ video }) => {
           ) : (
             <AiOutlineLike className="text-lg" />
           )}
-          {video.likes}
+          {video.Like}
         </button>
         <button
           onClick={toggleDislike}
@@ -64,8 +124,21 @@ const LikeSubscribeSave = ({ video }) => {
       <button className="flex gap-2 items-center h-10 rounded-full px-4 hover:bg-zinc-700 bg-zinc-800">
         <TbShare3 className="text-xl" /> Share
       </button>
-      <button className="flex gap-2 items-center h-10 rounded-full px-4 hover:bg-zinc-700 bg-zinc-800">
-        <MdPlaylistAdd className="text-xl" /> Save
+      <button
+        onClick={handleSave}
+        className="flex gap-2 items-center h-10 rounded-full px-4 hover:bg-zinc-700 bg-zinc-800"
+      >
+        {saved ? (
+          <div className="flex items-center gap-2 text-md">
+            <MdOutlinePlaylistAddCheck className="text-xl" />
+            Saved
+          </div>
+        ) : (
+          <div className="flex items-center gap-2 text-md">
+            <MdPlaylistAdd className="text-xl" />
+            Save
+          </div>
+        )}
       </button>
 
       <button
