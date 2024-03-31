@@ -22,7 +22,7 @@ const UploadPage = ({ toggleUploadPanel }) => {
       alert("Enter the title");
     } else if (!selectedFile) {
       alert("Attach the video file");
-    } else if (selectedFile.size > 100000000) {
+    } else if (selectedFile.size > 1000000000) {
       alert("Attach video file less than 1mb");
     } else {
       const formData = new FormData();

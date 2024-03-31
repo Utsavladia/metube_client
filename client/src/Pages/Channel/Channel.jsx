@@ -44,9 +44,9 @@ const Channel = () => {
               alt="profile pic"
             />
             <div className="flex flex-col">
-              <h1 className="text-2xl font-bold">{profilePic.name}</h1>
+              <h1 className="text-2xl font-bold">{profilePic?.name}</h1>
               <p className="text-zinc-300">{user?.result.email}</p>
-              <p className="text-zinc-300 text-sm ">{user.result.desc}</p>
+              <p className="text-zinc-300 text-sm ">{user?.result.desc}</p>
             </div>
             <div className="flex flex-col gap-4">
               <button className="px-3 py-2 text-sm hover:bg-zinc-600 bg-zinc-800 rounded-full">

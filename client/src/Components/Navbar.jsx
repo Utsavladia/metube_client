@@ -8,6 +8,7 @@ import { VscDeviceCameraVideo } from "react-icons/vsc";
 import GoogleOAuth from "./GoogleAuth";
 import { useSelector } from "react-redux";
 import { NavLink } from "react-router-dom";
+import LoginPanel from "./LoginPanel";
 
 const Navbar = ({ toggleLeftBar }) => {
   // const [user, setuser] = useState(null);
@@ -16,12 +17,15 @@ const Navbar = ({ toggleLeftBar }) => {
   const [showSugg, setShowSugg] = useState(false);
   const [showAP, setShowAP] = useState(false);
   const user = useSelector((state) => state.currentUserReducer);
+  const [name, setName] = useState("");
+  const [loginpanel, setLoginpanel] = useState(false);
 
   const toggleAccountPanel = () => {
     setShowAP((prev) => !prev);
   };
 
   const adduser = (name) => {
+    setName(name);
     // setuser(name);
     console.log("User logged in:", name);
   };
@@ -36,9 +40,17 @@ const Navbar = ({ toggleLeftBar }) => {
     setsuggestions(sugg);
     s;
   };
+  const toggleLoginPanel = () => {
+    setLoginpanel((prev) => !prev);
+  };
+
+  const handleLogin = () => {
+    // toggleLoginPanel();
+    setShowAP(false);
+  };
 
   return (
-    <div className="fixed z-20 bg-black  w-full flex items-center justify-between px-8 py-2">
+    <div className="fixed z-20 bg-black top-0 w-full flex items-center justify-between px-8 py-2">
       <div className="flex items-center ">
         <FaBars
           className="text-white text-xl font-thin"
@@ -111,21 +123,30 @@ const Navbar = ({ toggleLeftBar }) => {
           )}
 
           {showAP && (
-            <div className="absolute bg-zinc-800 right-0 top-12 p-6 rounded-lg  ">
-              <h1 className="border-b-2 text-white font-semibold text-lg text-center pb-4">
-                Wellcome {user?.name}!
+            <div className="absolute bg-zinc-800 right-0 top-12 p-6 z-30 w-64 rounded-lg  ">
+              <h1 className="border-b-2 text-white mb-6 font-semibold text-lg text-center pb-4">
+                Wellcome {name}!
               </h1>
 
               <NavLink to={"/channel"}>
-                <div className="text-white font-bold py-2 cursor-pointer my-6 text-center hover:bg-black rounded-lg">
+                <div className="text-white font-semibold  py-2 px-2 my-2 text-md cursor-pointer text-left hover:bg-black rounded-lg">
                   Your Channel
                 </div>
               </NavLink>
+              {!user && (
+                <div
+                  className="text-white font-semibold border-blue-500 border py-2 my-2 mb-4 text-lg px-2 cursor-pointer  text-center hover:bg-black rounded-lg"
+                  onClick={handleLogin}
+                >
+                  <NavLink to={"/login"}> Login with Email</NavLink>
+                </div>
+              )}
               <GoogleOAuth adduser={adduser} />
             </div>
           )}
         </div>
       </div>
+      {/* {loginpanel && <LoginPanel toggleLoginPanel={toggleLoginPanel} />} */}
     </div>
   );
 };

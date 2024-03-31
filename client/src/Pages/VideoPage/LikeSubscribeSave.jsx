@@ -33,7 +33,7 @@ const LikeSubscribeSave = ({ video, vid }) => {
       )
       .map((m) => setSaved(true));
 
-    allLikes?.likedVideos.filter((q) => q == vid).map((m) => setLiked(true));
+    allLikes?.likedVideos?.filter((q) => q == vid).map((m) => setLiked(true));
   }, []);
 
   const toggleDot = () => {
@@ -56,12 +56,15 @@ const LikeSubscribeSave = ({ video, vid }) => {
         })
       );
     }
-    dispatch(
-      userLiked({
-        userId: currentUser?.result?._id,
-        videoId: vid,
-      })
-    );
+    console.log("called aciton user likeda s");
+    if (currentUser) {
+      dispatch(
+        userLiked({
+          userId: currentUser?.result?._id,
+          videoId: vid,
+        })
+      );
+    }
 
     setLiked(!liked);
   };
@@ -78,13 +81,15 @@ const LikeSubscribeSave = ({ video, vid }) => {
   };
 
   const handleSave = () => {
-    setSaved(!saved);
-    dispatch(
-      savevideo({
-        videoId: vid,
-        userId: currentUser?.result?._id,
-      })
-    );
+    if (currentUser) {
+      setSaved(!saved);
+      dispatch(
+        savevideo({
+          videoId: vid,
+          userId: currentUser?.result?._id,
+        })
+      );
+    }
   };
 
   // to control like and dislike at same time

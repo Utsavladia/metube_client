@@ -7,17 +7,23 @@ import WatchLater from "../Pages/Watch Later/WatchLater";
 import LikedVideos from "../Pages/LikedVideos/LikedVideos";
 import Channel from "../Pages/Channel/Channel";
 import VideoPage from "../Pages/VideoPage/VideoPage";
+import LoginPanel from "./LoginPanel";
 
-const AllRoutes = () => {
+const AllRoutes = ({ leftbar }) => {
   return (
     <Routes>
-      <Route path="/" Component={Home} />
-      <Route path="/library" Component={Library} />
-      <Route path="/history" Component={History} />
-      <Route path="/watchlater" Component={WatchLater} />
-      <Route path="/likedvideos" Component={LikedVideos} />
-      <Route path="/channel" Component={Channel} />
-      <Route path="/videopage/:vid" Component={VideoPage} />
+      <Route path="/" element={<Home />} />
+      <Route path="/library" element={<Library />} />
+      <Route path="/history" element={<History />} />
+      <Route path="/watchlater" element={<WatchLater />} />
+      <Route path="/likedvideos" element={<LikedVideos />} />
+      <Route path="/channel" element={<Channel />} />
+      <Route
+        path="/videopage/:vid"
+        enter
+        element={<VideoPage toggleleftbar={leftbar} />}
+      />
+      <Route path="/login" element={<LoginPanel />} />
     </Routes>
   );
 };

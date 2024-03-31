@@ -15,7 +15,6 @@ export const historyController = async (req, res) => {
         { history: historylist },
         { new: true }
       );
-      console.log("history list updated", historylist);
       res.status(200).json({ message: "history updated" });
     } else {
       const newHistory = new History({

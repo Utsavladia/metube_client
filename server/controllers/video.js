@@ -108,13 +108,14 @@ export const getAllWatchLaterController = async (req, res) => {
 
 export const userLikedController = async (req, res) => {
   const { userId, videoId } = req.body;
+  console.log("we called userliked controller as ", userId, videoId);
   try {
-    let user = await userLiked.findOne({ userId });
+    const user = await userLiked.findOne({ userId });
+    const likedvideosList = user?.likedVideos || [];
 
-    const likedvideosList = user.likedVideos || [];
-    console.log("user we found on liked as ", user);
-    console.log("we ggot the likded video list as ", likedvideosList);
     if (user) {
+      console.log("user we found on liked as ", user);
+      console.log("we ggot the likded video list as ", likedvideosList);
       const index = likedvideosList.indexOf(videoId);
       if (index !== -1) {
         likedvideosList.splice(index, 1);
@@ -124,15 +125,15 @@ export const userLikedController = async (req, res) => {
         likedvideosList.push(videoId);
         console.log("added to the likedvide the id ", videoId);
       }
-      user = await userLiked.findOneAndUpdate(
+      const userupdate = await userLiked.findOneAndUpdate(
         { userId },
         { likedVideos: likedvideosList },
         { new: true }
       );
-      console.log("user updated with the liked videos as ", user);
+      console.log("user updated with the liked videos as ", userupdate);
       res.status(200).json({ message: "added the video to the user" });
     } else {
-      const newUserLiked = new userLiked({
+      const newUserLiked = userLiked.create({
         userId,
         likedVideos: [videoId],
       });

@@ -4,7 +4,7 @@ export const userLiked = (likedData) => async (dispatch) => {
   try {
     const { userId, videoId } = likedData;
     const { data } = await api.userLiked(likedData);
-    console.log("data we got on user liked as ", data);
+    console.log("data we got on user liked from backend api as ", data);
     await dispatch(getAllLikes(userId));
   } catch (error) {
     console.log(error);

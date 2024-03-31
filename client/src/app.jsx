@@ -6,7 +6,6 @@ import LeftDrawer from "./Components/LeftDrawer";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllVideos, getAllWatchLater } from "../src/actions/getAllVideos";
-import { getAllLikes } from "./actions/video";
 
 export function App() {
   const [isLeftBarVisible, setIsLeftBarVisible] = useState(true);
@@ -18,14 +17,13 @@ export function App() {
   useEffect(() => {
     dispatch(getAllVideos());
     dispatch(getAllWatchLater());
-    console.log("getall watch later was called in the app");
   }, [dispatch]);
 
   return (
     <Router>
       <Navbar toggleLeftBar={toggleLeftBar} />
       <LeftDrawer isVisible={isLeftBarVisible} />
-      <AllRoutes />
+      <AllRoutes leftbar={setIsLeftBarVisible} />
     </Router>
   );
 }

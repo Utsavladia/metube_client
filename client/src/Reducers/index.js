@@ -6,6 +6,9 @@ import videoReducer from "./video";
 import watchLaterReducer from "./watchLater";
 import allLikesReducer from "./likes";
 import historyReducer from "./history";
+import loginFailure from "./loginfailure";
+import validationFailure from "./validationFailure";
+import validationSuccess from "./validationSuccess";
 
 export default combineReducers({
   authReducer,
@@ -15,4 +18,7 @@ export default combineReducers({
   watchLaterReducer,
   allLikesReducer,
   historyReducer,
+  loginFailure,
+  validationFailure,
+  validationSuccess,
 });

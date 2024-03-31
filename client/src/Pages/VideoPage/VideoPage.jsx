@@ -49,7 +49,7 @@ const getElapsedTime = (uploadDate) => {
   }
 };
 
-const VideoPage = () => {
+const VideoPage = ({ toggleleftbar }) => {
   const { vid } = useParams();
 
   const currvid = useSelector((state) => state.videoReducer);
@@ -63,13 +63,22 @@ const VideoPage = () => {
   };
   useEffect(() => {
     videoview();
+    toggleleftbar(false);
+    return () => {
+      toggleleftbar(true);
+    };
   }, []);
-  dispatch(
-    history({
-      userId: currentUser?.result?._id,
-      history: vid,
-    })
-  );
+
+  useEffect(() => {
+    if (currentUser) {
+      dispatch(
+        history({
+          userId: currentUser?.result?._id,
+          history: vid,
+        })
+      );
+    }
+  }, [currentUser]);
 
   return (
     <div className="flex w-full h-full py-20 px-8 text-white">

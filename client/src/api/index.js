@@ -36,3 +36,10 @@ export const history = (historyData) => API.post("/video/history", historyData);
 
 export const gethistory = (userId) =>
   API.get("/video/gethistory", { params: { userId } });
+
+export const register = (registerData) => {
+  API.post("/user/register", registerData);
+};
+
+export const validateOtp = (validateData) =>
+  API.post("/user/validate", validateData);

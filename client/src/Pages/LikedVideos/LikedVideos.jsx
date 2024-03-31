@@ -99,11 +99,11 @@ import { useSelector } from "react-redux";
 
 const LikedVideos = () => {
   const allLikes = useSelector((state) => state.allLikesReducer);
-  console.log(allLikes);
+  console.log("all likes are ", allLikes);
   const allVideos = useSelector((state) => state.videoReducer.data);
 
-  const likedVideos = allVideos.filter((video) =>
-    allLikes?.likedVideos.includes(video._id)
+  const likedVideos = allVideos?.filter((video) =>
+    allLikes?.likedVideos?.includes(video._id)
   );
 
   console.log("we got the liked videos in page as ", likedVideos);

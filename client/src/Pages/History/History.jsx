@@ -103,7 +103,7 @@ const History = () => {
   const allvideos = useSelector((state) => state.videoReducer?.data);
 
   const hv = allvideos
-    .filter((video) => historydata.history.includes(video?._id))
+    .filter((video) => historydata?.history?.includes(video?._id))
     .reverse();
   console.log("filtering with history we got ", hv);
   return (
