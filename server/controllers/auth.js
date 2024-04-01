@@ -49,11 +49,20 @@ export const login = async (req, res) => {
       if (password) {
         const isblocked = await loginAttempt.findOne({ email });
         console.log(isblocked?.blocked);
-        if (isblocked && isblocked?.blocked) {
+        const onehour = 60 * 60 * 10000;
+        const currentTime = Date.now();
+        const timesinceblock = currentTime - isblocked?.blockTime;
+        if (isblocked && isblocked?.blocked && timesinceblock < onehour) {
           return res
             .status(404)
             .json({ message: "User is blocked for 1 hours" });
         } else {
+          if (isblocked?.blocked && timesinceblock >= onehour) {
+            await loginAttempt.findByIdAndDelete({ email });
+            console.log(
+              "we hae deeleted the user after 1 hour form login attempt"
+            );
+          }
           console.log("we have the password ", password);
           if (existingUser.password === password) {
             res.status(200).json({ result: existingUser, token });

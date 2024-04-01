@@ -11,6 +11,7 @@ import { getAllWatchLaterController } from "../controllers/video.js";
 import { getAllLikesController } from "../controllers/video.js";
 import { historyController } from "../controllers/historycontrol.js";
 import { getHistoryController } from "../controllers/historycontrol.js";
+import { subscribe } from "../controllers/subscribe.js";
 
 const routes = express.Router();
 
@@ -32,5 +33,7 @@ routes.get("/getalllikes", auth, getAllLikesController);
 routes.post("/history", auth, historyController);
 
 routes.get("/gethistory", auth, getHistoryController);
+
+routes.post("/subscribe", auth, subscribe);
 
 export default routes;

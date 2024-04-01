@@ -37,6 +37,7 @@ const videoFileSchema = new mongoose.Schema(
     Uploder: {
       type: String,
     },
+    access: { type: Boolean },
   },
   {
     timestamps: true,
