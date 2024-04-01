@@ -9,12 +9,17 @@ const UploadPage = ({ toggleUploadPanel }) => {
   const [uploadSuccess, setUploadSuccess] = useState(false);
   const [uploadError, setUploadError] = useState(null);
   const [title, setTitle] = useState("");
+  const [access, setAccess] = useState(true);
 
   const currentUser = useSelector((state) => state.currentUserReducer);
   const dispatch = useDispatch();
 
   const handleFileChange = (e) => {
     setSelectedFile(e.target.files[0]);
+  };
+
+  const handleAccessChange = (e) => {
+    setAccess(e.target.value === "true");
   };
 
   const uploadVideoFile = async () => {
@@ -30,6 +35,7 @@ const UploadPage = ({ toggleUploadPanel }) => {
       formData.append("video", selectedFile);
       formData.append("channel", currentUser?.result?._id);
       formData.append("uploader", currentUser?.result?.name);
+      formData.append("access", access);
 
       try {
         const config = {
@@ -69,6 +75,28 @@ const UploadPage = ({ toggleUploadPanel }) => {
           onChange={(e) => setTitle(e.target.value)}
         />
         <input type="file" className="text-lg" onChange={handleFileChange} />
+
+        <div className="flex flex-col justify-start gap-4 text-xl font-semibold">
+          <h1>Allow access: </h1>
+          <label className="flex gap-4 ml-4">
+            <input
+              type="radio"
+              value="true"
+              checked={access === true}
+              onChange={handleAccessChange}
+            />
+            Everyone
+          </label>
+          <label className="flex gap-4 ml-4">
+            <input
+              type="radio"
+              value="false"
+              checked={access === false}
+              onChange={handleAccessChange}
+            />
+            Subscribers Only
+          </label>
+        </div>
 
         <button
           className="bg-blue-500 rounded-xl px-4 py-2 w-56  hover:bg-blue-600"

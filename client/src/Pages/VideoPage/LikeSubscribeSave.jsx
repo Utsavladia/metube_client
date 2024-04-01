@@ -16,12 +16,14 @@ import {
 import { likeVideo } from "../../actions/getAllVideos";
 import { savevideo } from "../../actions/getAllVideos";
 import { userLiked } from "../../actions/video";
+import { useNavigate } from "react-router-dom";
 const LikeSubscribeSave = ({ video, vid }) => {
   const [liked, setLiked] = useState(false);
   const [disliked, setDisliked] = useState(false);
   const [saved, setSaved] = useState(false);
   const [dots, setdots] = useState(false);
   const dispatch = useDispatch();
+  const navigate = useNavigate();
   const currentUser = useSelector((state) => state.currentUserReducer);
   const watchLaterList = useSelector((state) => state.watchLaterReducer);
   const allLikes = useSelector((state) => state.allLikesReducer);
@@ -89,6 +91,8 @@ const LikeSubscribeSave = ({ video, vid }) => {
           userId: currentUser?.result?._id,
         })
       );
+    } else {
+      navigate("/login");
     }
   };
 

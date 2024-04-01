@@ -3,6 +3,7 @@ import VideoFiles from "../models/videoFiles.js";
 import mongoose, { MongooseError } from "mongoose";
 import watchLater from "../models/watchLater.js";
 import userLiked from "../models/userLiked.js";
+import Comments from "../models/comments.js";
 
 export const uplaodVideo = async (req, res, next) => {
   if (req.file === undefined) {
@@ -154,5 +155,35 @@ export const getAllLikesController = async (req, res) => {
     res.status(200).send(likedVideos);
   } catch (error) {
     res.status(404).send("erroe finding alll likes", error);
+  }
+};
+
+export const comment = async (req, res) => {
+  const { userId, videoId, comment, name } = req.body;
+  console.log("comment data we got on req ", userId, videoId, comment, name);
+  try {
+    const newcomment = await Comments.create({
+      userId: userId,
+      videoId: videoId,
+      comment: comment,
+      name: name,
+    });
+    await newcomment.save();
+    console.log("new comment created ", newcomment);
+    res.status(200).json({ message: "commented successfuly" });
+  } catch (error) {
+    res.status(404).json(error);
+  }
+};
+
+export const getAllComments = async (req, res) => {
+  const { vid } = req.query;
+  console.log("data got on getall comment", vid);
+  try {
+    const comments = await Comments.find({ videoId: vid });
+    console.log(comments);
+    res.status(200).send(comments);
+  } catch (error) {
+    res.status(404).json({ message: "error fetching the alll comments " });
   }
 };

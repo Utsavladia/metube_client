@@ -20,3 +20,14 @@ export const getAllLikes = (userId) => async (dispatch) => {
     console.log(error);
   }
 };
+
+export const subscribe = (subsData) => async (dispatch) => {
+  try {
+    const { data } = await api.subscribe(subsData);
+    const { userId, channelId } = subsData;
+    console.log("data we got on subscribe form api ", data);
+    await dispatch(getAllLikes(userId));
+  } catch (error) {
+    console.log(error);
+  }
+};

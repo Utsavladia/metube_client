@@ -1,11 +1,12 @@
-import React, { useEffect } from "react";
+import React, { useEffect, useState } from "react";
 import vdo from "../../assets/vdo.mp4";
 import LikeSubscribeSave from "./LikeSubscribeSave";
 import CommentSection from "./CommentSection";
 import { useDispatch, useSelector } from "react-redux";
-import { useParams } from "react-router-dom";
+import { useNavigate, useParams } from "react-router-dom";
 import { viewVideo } from "../../actions/getAllVideos";
 import { history } from "../../actions/history.js";
+import { subscribe } from "../../actions/video.js";
 
 const video = {
   id: 1,
@@ -57,6 +58,10 @@ const VideoPage = ({ toggleleftbar }) => {
   console.log("video in the video page is ", vv);
   const dispatch = useDispatch();
   const currentUser = useSelector((state) => state?.currentUserReducer);
+  const allsubscribed = useSelector((state) => state.allLikesReducer);
+  console.log("we got the reducer data os subscribed as ", allsubscribed);
+  const [subscribed, setSubscribed] = useState(false);
+  const navigate = useNavigate();
 
   const videoview = () => {
     dispatch(viewVideo({ id: vid }));
@@ -80,16 +85,54 @@ const VideoPage = ({ toggleleftbar }) => {
     }
   }, [currentUser]);
 
+  useEffect(() => {
+    if (allsubscribed && allsubscribed?.subscribed) {
+      const subindex = allsubscribed?.subscribed?.indexOf(vv.videoChanel);
+      console.log("index of subsscribed channel ", subindex);
+      if (subindex !== -1) {
+        setSubscribed(true);
+      } else {
+        setSubscribed(false);
+      }
+    } else {
+      setSubscribed(false);
+    }
+  }, [allsubscribed]);
+
+  const handleSubscribe = () => {
+    if (currentUser) {
+      dispatch(
+        subscribe({
+          userId: currentUser?.result?._id,
+          channelId: vv?.videoChanel,
+        })
+      );
+    } else {
+      navigate("/login");
+    }
+  };
+
   return (
-    <div className="flex w-full h-full py-20 px-8 text-white">
+    <div className="flex w-full h-full py-20 px-8 text-white ">
       <div className="md:w-[65vw] flex flex-col ">
-        <video
-          src={`http://localhost:5500/${vv?.filePath}`}
-          className="w-full max-h-[70vh] object-cover rounded-xl"
-          controls
-          //autoPlay
-        />
-        <h1 className="text-white font-bold text-xl my-2">{vv.videoTitle}</h1>
+        {!vv.access && !subscribed ? (
+          <div className="min-w-full h-[70vh] rounded-xl relative text-center flex flex-col justify-center bg-black">
+            <h1 className="text-white text-3xl font-semibold mb-4 ">
+              This video is restricted to Subscribers only !
+            </h1>
+            <h1 className="text-white text-xl">
+              Please Subscribe This channel to view the video
+            </h1>
+          </div>
+        ) : (
+          <video
+            src={`http://localhost:5500/${vv?.filePath}`}
+            className="w-full max-h-[70vh] object-cover rounded-xl"
+            controls
+            //autoPlay
+          />
+        )}
+        <h1 className="text-white font-bold text-xl my-2">{vv?.videoTitle}</h1>
         <div className="flex flex-wrap justify-between items-center">
           <div className="flex gap-4 items-center mb-4">
             <img
@@ -98,13 +141,18 @@ const VideoPage = ({ toggleleftbar }) => {
               className="w-10 h-10 rounded-full"
             />
             <span className="flex flex-col">
-              <span className="font-bold">{video.channel}</span>
+              <span className="font-bold">{video?.channel}</span>
               <span className="text-zinc-500 text-sm font-semibold">
                 {video.subscriber} subscribers
               </span>
             </span>
-            <button className="bg-white h-10 rounded-full text-black font-semibold px-4 text-sm ml-6">
-              Subscribe
+            <button
+              className={`${
+                subscribed ? "bg-zinc-800 text-white" : "bg-white text-black"
+              }   h-10 rounded-full  font-semibold px-4 text-sm ml-6 `}
+              onClick={handleSubscribe}
+            >
+              {subscribed ? "Subscribed" : "Subscribe"}
             </button>
           </div>
           <LikeSubscribeSave video={vv} vid={vid} />
@@ -112,13 +160,13 @@ const VideoPage = ({ toggleleftbar }) => {
 
         <div className="p-2 text-sm font-semibold bg-zinc-800 rounded-lg">
           <p className="">
-            {vv.Views} views {getElapsedTime(video.uploadDate)}
+            {vv?.Views} views {getElapsedTime(video.uploadDate)}
           </p>
           <p className=" mt-1">{video.description}</p>
           ...more
         </div>
 
-        <CommentSection />
+        <CommentSection vid={vid} access={vv.access} subscribed={subscribed} />
       </div>
       <div className=""></div>
     </div>

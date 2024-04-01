@@ -43,3 +43,11 @@ export const register = (registerData) => {
 
 export const validateOtp = (validateData) =>
   API.post("/user/validate", validateData);
+
+export const subscribe = (subsData) => API.post("/video/subscribe", subsData);
+
+export const commentApi = (commentData) =>
+  API.post("/video/comment", commentData);
+
+export const getcomments = (vid) =>
+  API.get("/video/getallcomments", { params: { vid } });

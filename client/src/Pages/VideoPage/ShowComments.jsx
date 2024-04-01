@@ -3,7 +3,7 @@ import { BsThreeDotsVertical } from "react-icons/bs";
 
 const ShowComment = ({ comment, index, onEdit }) => {
   const [edit, setEdit] = useState(false);
-  const [editedText, seteditedText] = useState(comment.comment);
+  const [editedText, seteditedText] = useState(comment?.comment);
   const [options, setoptions] = useState(false);
 
   const handleOption = () => {
@@ -14,7 +14,7 @@ const ShowComment = ({ comment, index, onEdit }) => {
     setEdit(true);
   };
   const handleCancelEdit = () => {
-    seteditedText(comment.comment);
+    seteditedText(comment?.comment);
     setEdit(false);
     setoptions(false);
   };
@@ -34,6 +34,7 @@ const ShowComment = ({ comment, index, onEdit }) => {
         >
           <img
             src="https://img6.arthub.ai/64c007f4-aa90.webp"
+            alt="P"
             className="w-10 h-10 rounded-full "
           />
           <input
@@ -58,13 +59,15 @@ const ShowComment = ({ comment, index, onEdit }) => {
       ) : (
         <div className="flex gap-4 py-6 w-full">
           <img
-            src={comment.dp}
+            src="https://img6.arthub.ai/64c007f4-aa90.webp"
             className="w-10 h-10 rounded-full"
             alt="profile"
           />
           <div className="w-full">
-            <h1 className="font-semibold text-sm">{comment.user}</h1>
-            <p className="text-sm">{comment.comment}</p>
+            <h1 className="font-semibold text-sm">
+              {comment?.name?.split("@")[0]}
+            </h1>
+            <p className="text-sm">{comment?.comment}</p>
 
             <div className="relative w-full">
               <div

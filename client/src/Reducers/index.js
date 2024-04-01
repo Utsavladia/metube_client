@@ -9,6 +9,7 @@ import historyReducer from "./history";
 import loginFailure from "./loginfailure";
 import validationFailure from "./validationFailure";
 import validationSuccess from "./validationSuccess";
+import commentReducer from "./comments";
 
 export default combineReducers({
   authReducer,
@@ -21,4 +22,5 @@ export default combineReducers({
   loginFailure,
   validationFailure,
   validationSuccess,
+  commentReducer,
 });

@@ -12,6 +12,8 @@ import { getAllLikesController } from "../controllers/video.js";
 import { historyController } from "../controllers/historycontrol.js";
 import { getHistoryController } from "../controllers/historycontrol.js";
 import { subscribe } from "../controllers/subscribe.js";
+import { comment } from "../controllers/video.js";
+import { getAllComments } from "../controllers/video.js";
 
 const routes = express.Router();
 
@@ -35,5 +37,9 @@ routes.post("/history", auth, historyController);
 routes.get("/gethistory", auth, getHistoryController);
 
 routes.post("/subscribe", auth, subscribe);
+
+routes.post("/comment", auth, comment);
+
+routes.get("/getallcomments", getAllComments);
 
 export default routes;

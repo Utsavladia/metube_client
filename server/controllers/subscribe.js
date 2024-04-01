@@ -1,23 +1,28 @@
-import userLiked from "../models/userLiked";
+import userLiked from "../models/userLiked.js";
 
 export const subscribe = async (req, res) => {
   const { userId, channelId } = req.body;
   console.log("we got the userId and channelId as", userId, channelId);
   try {
     const founduser = await userLiked.findOne({ userId });
+    console.log("found user in userlinked ", founduser.userId);
     if (founduser) {
       const subscribedList = founduser?.subscribed;
+      console.log("list of subscribed ", subscribedList);
       const index = subscribedList.indexOf(channelId);
+      console.log("index ", index);
       if (index !== -1) {
         subscribedList.splice(index, 1);
       } else {
         subscribedList.push(channelId);
       }
-      const updateduser = await userLiked.findByIdAndUpdate(
+      console.log("updated list", subscribedList);
+      const updateduser = await userLiked.findOneAndUpdate(
         { userId },
         { subscribed: subscribedList },
         { new: true }
       );
+      console.log("updated user ", updateduser);
       res
         .status(200)
         .json({ message: "subscribed or unsubscribed the channel" });
