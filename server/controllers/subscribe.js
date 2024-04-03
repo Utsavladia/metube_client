@@ -5,9 +5,9 @@ export const subscribe = async (req, res) => {
   console.log("we got the userId and channelId as", userId, channelId);
   try {
     const founduser = await userLiked.findOne({ userId });
-    console.log("found user in userlinked ", founduser.userId);
+    console.log("found user in userlinked ", founduser);
     if (founduser) {
-      const subscribedList = founduser?.subscribed;
+      const subscribedList = founduser?.subscribed || [];
       console.log("list of subscribed ", subscribedList);
       const index = subscribedList.indexOf(channelId);
       console.log("index ", index);

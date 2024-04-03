@@ -99,21 +99,25 @@ import { useDispatch, useSelector } from "react-redux";
 const WatchLater = () => {
   const saved = useSelector((state) => state.watchLaterReducer);
   const allvideos = useSelector((state) => state.videoReducer);
-  console.log("watchlater vides are in id ", saved?.data);
-  console.log("all videos are", allvideos);
-  const watchlaterids = saved?.data?.map((m) => m.videoId);
-
-  const watchlater = allvideos?.data?.filter((video) =>
-    watchlaterids.includes(video._id)
-  );
   const currentUser = useSelector((state) => state.currentUserReducer);
   const currentUserid = currentUser?.result?._id;
-  const userWatchLater = watchlater?.filter((w) => w?._id === currentUserid);
 
-  console.log("watch later videos are ", userWatchLater);
+  console.log("watchlater vides are in id ", saved?.data);
+  console.log("all videos are", allvideos?.data);
+
+  const watchlaterOfcurrentuser = saved?.data
+    ?.filter((m) => m.userId === currentUserid)
+    .map((item) => item.videoId);
+  console.log("user watchlaters are ", watchlaterOfcurrentuser);
+
+  const watchlatervideos = allvideos?.data?.filter((vid) =>
+    watchlaterOfcurrentuser?.includes(vid._id)
+  );
+
+  console.log("watch later videos are ", watchlatervideos);
   return (
     <div className="w-full h-full">
-      <HWL page={"Watch Later"} videoList={userWatchLater} />
+      <HWL page={"Watch Later"} videoList={watchlatervideos} />
     </div>
   );
 };
