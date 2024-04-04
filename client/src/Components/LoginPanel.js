@@ -54,6 +54,7 @@ const LoginPanel = () => {
             />
             <p className="my-1 mt-4 text-lg ">Password</p>
             <input
+              type="password"
               onChange={(e) => setPassword(e.target.value)}
               className="bg-zinc-900 px-3 py-2 text-lg w-full"
               placeholder="Enter you password.."
