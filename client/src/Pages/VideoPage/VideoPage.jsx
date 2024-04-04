@@ -126,7 +126,7 @@ const VideoPage = ({ toggleleftbar }) => {
           </div>
         ) : (
           <video
-            src={`http://localhost:5500/${vv?.filePath}`}
+            src={`https://metube-server-j5lh.onrender.com/${vv?.filePath}`}
             className="w-full max-h-[70vh] object-cover rounded-xl"
             controls
             //autoPlay

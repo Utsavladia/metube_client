@@ -7,7 +7,7 @@ const VideoHCard = ({ video }) => {
       <Link to={`/videopage/${video?._id}`} className=" w-4/12">
         <video
           className="w-full rounded-lg relative "
-          src={`http://localhost:5500/${video.filePath}`}
+          src={`https://metube-server-j5lh.onrender.com/${video.filePath}`}
         />
       </Link>
       <div className="flex flex-col p-2 w-8/12">
