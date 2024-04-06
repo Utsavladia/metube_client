@@ -3,7 +3,7 @@ import ShowComment from "./ShowComments";
 import { useDispatch, useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { commentAction, getAllComments } from "../../actions/comments";
-const CommentSection = ({ vid, access, subscribed }) => {
+const CommentSection = ({ vid, access, subscribed, isowner }) => {
   const [comment, setcomment] = useState("");
   const [inputActive, setInputActive] = useState(false);
   const [comments, setComments] = useState([]);
@@ -56,7 +56,7 @@ const CommentSection = ({ vid, access, subscribed }) => {
   return (
     <div className="w-full  text-white  pr-4">
       <h1 className="text-xl font-bold mt-4 mb-6">Comments</h1>
-      {!access && !subscribed ? (
+      {!access && !isowner && !subscribed ? (
         <div className="flex flex-col justify-center items-top border border-zinc-800 px-4 py-4 w-full rounded-lg">
           <h1 className="text-xl">
             Commenting is Restricted to subscribers only !

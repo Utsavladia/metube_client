@@ -15,6 +15,7 @@ const Channel = () => {
     "user id we got as from useSelector in Channel:",
     user?.result?._id
   );
+  console.log("usser name is ,", user?.result?.name);
   const userid = user?.result?._id;
   const isUserChannel = user?.result?.desc;
   const videos = useSelector((state) => state.videoReducer)

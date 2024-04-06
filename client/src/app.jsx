@@ -6,6 +6,7 @@ import LeftDrawer from "./Components/LeftDrawer";
 import { useState, useEffect } from "react";
 import { useDispatch } from "react-redux";
 import { getAllVideos, getAllWatchLater } from "../src/actions/getAllVideos";
+import { getallchannels } from "../src/actions/video";
 
 export function App() {
   const [isLeftBarVisible, setIsLeftBarVisible] = useState(true);
@@ -17,6 +18,7 @@ export function App() {
   useEffect(() => {
     dispatch(getAllVideos());
     dispatch(getAllWatchLater());
+    dispatch(getallchannels());
   }, [dispatch]);
 
   return (

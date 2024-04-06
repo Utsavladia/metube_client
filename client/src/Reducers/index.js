@@ -10,6 +10,7 @@ import loginFailure from "./loginfailure";
 import validationFailure from "./validationFailure";
 import validationSuccess from "./validationSuccess";
 import commentReducer from "./comments";
+import channelsReducer from "./getallchannels";
 
 export default combineReducers({
   authReducer,
@@ -23,4 +24,5 @@ export default combineReducers({
   validationFailure,
   validationSuccess,
   commentReducer,
+  channelsReducer,
 });

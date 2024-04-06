@@ -61,7 +61,19 @@ const VideoPage = ({ toggleleftbar }) => {
   const allsubscribed = useSelector((state) => state.allLikesReducer);
   console.log("we got the reducer data os subscribed as ", allsubscribed);
   const [subscribed, setSubscribed] = useState(false);
+  const [chsubs, setchsubs] = useState(0);
   const navigate = useNavigate();
+
+  const currentchannel = useSelector((state) => state.channelsReducer);
+  console.log("we got the channels as in vdieopage as ", currentchannel);
+
+  const subs = currentchannel?.find((ch) => ch.channelId === vv.videoChanel);
+  console.log("subs we got in videopage ", subs);
+  if (subs) {
+    setchsubs(subs?.subscribers?.length);
+  }
+
+  const isowner = currentUser?.result?._id === vv?.videoChanel;
 
   const videoview = () => {
     dispatch(viewVideo({ id: vid }));
@@ -115,7 +127,7 @@ const VideoPage = ({ toggleleftbar }) => {
   return (
     <div className="flex w-full h-full py-20 px-8 text-white ">
       <div className="md:w-[65vw] flex flex-col ">
-        {!vv.access && !subscribed ? (
+        {!vv?.access && !isowner && !subscribed ? (
           <div className="min-w-full h-[70vh] rounded-xl relative text-center flex flex-col justify-center bg-black">
             <h1 className="text-white text-3xl font-semibold mb-4 ">
               This video is restricted to Subscribers only !
@@ -141,9 +153,9 @@ const VideoPage = ({ toggleleftbar }) => {
               className="w-10 h-10 rounded-full"
             />
             <span className="flex flex-col">
-              <span className="font-bold">{video?.channel}</span>
+              <span className="font-bold">{vv.Uploder}</span>
               <span className="text-zinc-500 text-sm font-semibold">
-                {video.subscriber} subscribers
+                {chsubs} subscribers
               </span>
             </span>
             <button
@@ -166,7 +178,12 @@ const VideoPage = ({ toggleleftbar }) => {
           ...more
         </div>
 
-        <CommentSection vid={vid} access={vv.access} subscribed={subscribed} />
+        <CommentSection
+          vid={vid}
+          access={vv.access}
+          isowner={isowner}
+          subscribed={subscribed}
+        />
       </div>
       <div className=""></div>
     </div>

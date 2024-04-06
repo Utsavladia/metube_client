@@ -23,6 +23,7 @@ const UploadPage = ({ toggleUploadPanel }) => {
   };
 
   const uploadVideoFile = async () => {
+    console.log("user name is at upload ", currentUser?.result?.name);
     if (!title) {
       alert("Enter the title");
     } else if (!selectedFile) {
