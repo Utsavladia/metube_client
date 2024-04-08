@@ -1,7 +1,7 @@
 import axios from "axios";
 const API = axios.create({
   baseURL: `https://metube-server-j5lh.onrender.com/`,
-  // baseURL: `http://localhost:5500//`,
+  // baseURL: `http://localhost:5500/`,
 });
 
 API.interceptors.request.use((req) => {
@@ -56,3 +56,9 @@ export const commentApi = (commentData) =>
 
 export const getcomments = (vid) =>
   API.get("/video/getallcomments", { params: { vid } });
+
+export const deleteVideo = (videoData) =>
+  API.post("/video/deletevideo", videoData);
+
+export const changeaccess = (videoData) =>
+  API.post("/video/changeaccess", videoData);

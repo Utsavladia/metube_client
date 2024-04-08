@@ -10,6 +10,28 @@ export const getAllVideos = () => async (dispatch) => {
   }
 };
 
+export const deleteVideo = (videoData) => async (dispatch) => {
+  console.log(videoData);
+  try {
+    const { data } = await api.deleteVideo(videoData);
+    console.log(data);
+    dispatch(getAllVideos());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
+export const changeAccess = (videoData) => async (dispatch) => {
+  console.log(videoData);
+  try {
+    const { data } = await api.changeaccess(videoData);
+    console.log(data);
+    dispatch(getAllVideos());
+  } catch (error) {
+    console.log(error);
+  }
+};
+
 export const viewVideo = (videData) => async (dispatch) => {
   try {
     const { id } = videData;

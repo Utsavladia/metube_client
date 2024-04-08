@@ -34,6 +34,7 @@ const VideoCard = ({ video }) => {
       <Link to={`/videopage/${video?._id}`} className="relative">
         <video
           src={`https://metube-server-j5lh.onrender.com/${video.filePath}`}
+          // src={`http://localhost:5173/${video.filePath}`}
           className="rounded-xl"
         />
         {/* <p className="absolute right-2 bottom-1 bg-black font-semibold text-sm">

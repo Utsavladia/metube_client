@@ -3,7 +3,7 @@ import { useDispatch, useSelector } from "react-redux";
 import CreateChannel from "./createchannel";
 import UploadPage from "./UploadPage.jsx";
 import { getAllVideos } from "../../actions/getAllVideos.js";
-import HomeVideos from "../Home/HomeVideos.jsx";
+import HomeVideosO from "../Home/HomeVideosO.jsx";
 
 const Channel = () => {
   const dispatch = useDispatch();
@@ -74,7 +74,7 @@ const Channel = () => {
           Videos
         </h1>
 
-        <HomeVideos videos={videos} />
+        <HomeVideosO videos={videos} />
       </div>
     </div>
   );
