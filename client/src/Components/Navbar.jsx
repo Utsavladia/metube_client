@@ -129,7 +129,10 @@ const Navbar = ({ toggleLeftBar }) => {
               </h1>
 
               <NavLink to={"/channel"}>
-                <div className="text-white font-semibold  py-2 px-2 my-2 text-md cursor-pointer text-left hover:bg-black rounded-lg">
+                <div
+                  className="text-white font-semibold  py-2 px-2 my-2 text-md cursor-pointer text-left hover:bg-black rounded-lg"
+                  onClick={handleLogin}
+                >
                   Your Channel
                 </div>
               </NavLink>
